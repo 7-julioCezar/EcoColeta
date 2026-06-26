@@ -27,15 +27,15 @@ Sistema que conecta cidadãos a pontos de descarte correto de resíduos especiai
 EcoColeta/
 ├── src/
 │   └── ecocoleta/
-│       ├── controller/   → Main.java  (menu de texto / entrada do programa)
-│       ├── service/      → Regras de negócio e validações
-│       ├── dao/          → Acesso ao banco de dados (JDBC)
-│       ├── model/        → Classes de dados (Usuario, PontoColeta, ...)
-│       └── util/         → ConexaoDB.java
+│       ├── controller/   
+│       ├── service/      
+│       ├── dao/          
+│       ├── model/        
+│       └── util/        
 ├── sql/
-│   └── ecocoleta.sql     → Script completo de criação do banco
+│   └── ecocoleta.sql     
 ├── lib/
-│   └── mysql-connector-j-*.jar   ← você coloca aqui
+│   └── mysql-connector-j-*.jar  
 └── README.md
 ```
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- build.xml gerado para o projeto EcoColeta no NetBeans -->
+<project name="EcoColeta" default="default" basedir=".">
+    <description>Constrói, testa e executa o projeto EcoColeta.</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

@@ -1,0 +1,24 @@
+# NetBeans
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+.nb-gradle/
+nbactions.xml
+
+# Compilados Java
+*.class
+*.jar
+
+# Driver MySQL (cada dev baixa o próprio)
+lib/
+
+# Arquivo de configuração local com senha do banco
+# DESCOMENTE a linha abaixo se quiser proteger o arquivo de conexão:
+# src/ecocoleta/util/ConexaoDB.java
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+*.swp

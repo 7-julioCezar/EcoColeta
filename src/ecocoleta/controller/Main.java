@@ -27,9 +27,6 @@ import java.util.Scanner;
  */
 public class Main {
 
-    // -------------------------------------------------------
-    //  Serviços
-    // -------------------------------------------------------
     private static final UsuarioService        usuarioService = new UsuarioService();
     private static final PontoColetaService    pontoService   = new PontoColetaService();
     private static final AvaliacaoService      avaliacaoService = new AvaliacaoService();
@@ -37,12 +34,10 @@ public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    // Usuário logado na sessão atual
+   
     private static Usuario usuarioLogado = null;
 
-    // -------------------------------------------------------
-    //  Método main
-    // -------------------------------------------------------
+
     public static void main(String[] args) {
         System.out.println("====================================");
         System.out.println("  Bem-vindo ao EcoColeta v1.0 MVP  ");
@@ -64,9 +59,7 @@ public class Main {
         sc.close();
     }
 
-    // -------------------------------------------------------
-    //  Menu de Acesso (antes do login)
-    // -------------------------------------------------------
+  
     private static boolean menuAcesso() {
         System.out.println("\n--- MENU DE ACESSO ---");
         System.out.println("1. Login");
@@ -84,9 +77,7 @@ public class Main {
         return true;
     }
 
-    // -------------------------------------------------------
-    //  Menu Principal (após login)
-    // -------------------------------------------------------
+
     private static boolean menuPrincipal() {
         System.out.println("\n--- MENU PRINCIPAL --- [" + usuarioLogado.getNome()
                          + " | " + usuarioLogado.getTipo() + "]");
@@ -99,7 +90,7 @@ public class Main {
         System.out.println("7. Ver guias informativos");
         System.out.println("8. Cadastrar guia informativo");
 
-        // Opções exclusivas de ADMIN
+
         if ("ADMIN".equals(usuarioLogado.getTipo())) {
             System.out.println("9. [ADMIN] Listar usuários");
             System.out.println("D. [ADMIN] Desativar ponto");
@@ -134,28 +125,29 @@ public class Main {
         return true;
     }
 
-    // -------------------------------------------------------
-    //  RF-02: Login
-    // -------------------------------------------------------
-    private static void fazerLogin() {
+ 
+   private static void fazerLogin() {
         System.out.println("\n-- Login --");
         System.out.print("E-mail: ");
         String email = sc.nextLine();
         System.out.print("Senha: ");
         String senha = sc.nextLine();
 
-        Usuario u = usuarioService.login(email, senha);
-        if (u != null) {
-            usuarioLogado = u;
-            System.out.println("Login bem-sucedido! Bem-vindo(a), " + u.getNome() + ".");
-        } else {
-            System.out.println("E-mail ou senha incorretos.");
+        try {
+            // O try tenta executar o código que pode dar erro de banco de dados
+            Usuario u = usuarioService.login(email, senha);
+            if (u != null) {
+                usuarioLogado = u;
+                System.out.println("Login bem-sucedido! Bem-vindo(a), " + u.getNome() + ".");
+            } else {
+                System.out.println("E-mail ou senha incorretos.");
+            }
+        } catch (java.sql.SQLException e) {
+            // Se o banco de dados falhar, o catch captura o erro e evita que o programa mude/caia de forma abrupta
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
         }
     }
 
-    // -------------------------------------------------------
-    //  RF-01: Cadastrar usuário
-    // -------------------------------------------------------
     private static void cadastrarUsuario() {
         System.out.println("\n-- Cadastro de Usuário --");
         System.out.print("Nome: ");
@@ -171,9 +163,7 @@ public class Main {
         System.out.println(resultado);
     }
 
-    // -------------------------------------------------------
-    //  RF-03: Listar pontos
-    // -------------------------------------------------------
+ 
     private static void listarPontos() {
         System.out.println("\n-- Pontos de Coleta Disponíveis --");
         List<PontoColeta> pontos = pontoService.listarTodos();
@@ -195,9 +185,6 @@ public class Main {
         }
     }
 
-    // -------------------------------------------------------
-    //  RF-03: Buscar ponto por ID
-    // -------------------------------------------------------
     private static void buscarPontoPorId() {
         System.out.print("\nDigite o ID do ponto: ");
         int id = lerInt();
@@ -217,9 +204,7 @@ public class Main {
         }
     }
 
-    // -------------------------------------------------------
-    //  RF-05: Filtrar por tipo de material
-    // -------------------------------------------------------
+  
     private static void filtrarPorMaterial() {
         System.out.println("\n-- Filtrar por Tipo de Material --");
         System.out.println("IDs comuns: 1=Plástico  2=Vidro  3=Papel  4=Metal  5=Eletrônico");
@@ -237,9 +222,7 @@ public class Main {
         }
     }
 
-    // -------------------------------------------------------
-    //  RF-04: Cadastrar ponto de coleta
-    // -------------------------------------------------------
+
     private static void cadastrarPonto() {
         // Apenas EMPRESA ou ADMIN podem cadastrar pontos
         if ("CIDADAO".equals(usuarioLogado.getTipo())) {
@@ -255,7 +238,7 @@ public class Main {
         System.out.print("Descrição: ");
         String descricao = sc.nextLine();
 
-        // Materiais aceitos
+       
         System.out.println("Digite os IDs dos materiais aceitos separados por vírgula");
         System.out.println("  (ex: 1,2,5  para Plástico, Vidro e Eletrônico):");
         System.out.print("Materiais: ");
@@ -276,9 +259,7 @@ public class Main {
         System.out.println(resultado);
     }
 
-    // -------------------------------------------------------
-    //  RF-07: Avaliar ponto
-    // -------------------------------------------------------
+   
     private static void avaliarPonto() {
         System.out.println("\n-- Avaliar Ponto de Coleta --");
         System.out.print("ID do ponto: ");
@@ -293,9 +274,7 @@ public class Main {
         System.out.println(resultado);
     }
 
-    // -------------------------------------------------------
-    //  RF-07: Ver avaliações de um ponto
-    // -------------------------------------------------------
+
     private static void verAvaliacoes() {
         System.out.print("\nID do ponto: ");
         int idPonto = lerInt();
@@ -311,9 +290,6 @@ public class Main {
         }
     }
 
-    // -------------------------------------------------------
-    //  RF-06: Listar guias informativos
-    // -------------------------------------------------------
     private static void listarGuias() {
         System.out.println("\n-- Guias Informativos --");
         var guias = guiaService.listarTodos();
@@ -327,9 +303,7 @@ public class Main {
         });
     }
 
-    // -------------------------------------------------------
-    //  RF-06: Cadastrar guia
-    // -------------------------------------------------------
+  
     private static void cadastrarGuia() {
         if ("CIDADAO".equals(usuarioLogado.getTipo())) {
             System.out.println("Acesso negado. Apenas EMPRESA ou ADMIN podem criar guias.");
@@ -345,9 +319,7 @@ public class Main {
         System.out.println(guiaService.cadastrar(titulo, conteudo, usuarioLogado.getId()));
     }
 
-    // -------------------------------------------------------
-    //  ADMIN: Listar usuários
-    // -------------------------------------------------------
+ 
     private static void listarUsuarios() {
         System.out.println("\n-- Lista de Usuários --");
         usuarioService.listarTodos().forEach(u ->
@@ -355,18 +327,14 @@ public class Main {
                 u.getId(), u.getNome(), u.getEmail(), u.getTipo(), u.isAtivo()));
     }
 
-    // -------------------------------------------------------
-    //  ADMIN: Desativar ponto
-    // -------------------------------------------------------
+  
     private static void desativarPonto() {
         System.out.print("\nID do ponto a desativar: ");
         int id = lerInt();
         System.out.println(pontoService.desativar(id));
     }
 
-    // -------------------------------------------------------
-    //  Utilitário: ler inteiro com tratamento de erro
-    // -------------------------------------------------------
+  
     private static int lerInt() {
         try {
             return Integer.parseInt(sc.nextLine().trim());

@@ -8,18 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO responsável pelas operações de banco de dados da entidade PontoColeta.
- *
- * RF-03: Visualização de pontos de coleta
- * RF-04: Cadastro de novos pontos
- * RF-05: Filtro por tipo de material
- */
+
 public class PontoColetaDAO {
 
-    // ------------------------------------------------------------------
-    //  CREATE — Cadastrar ponto de coleta (RF-04)
-    // ------------------------------------------------------------------
+
     public boolean cadastrar(PontoColeta ponto) {
         String sql = "INSERT INTO pontos_coleta (nome, endereco, latitude, longitude, descricao, id_responsavel) "
                    + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -41,7 +33,7 @@ public class PontoColetaDAO {
                 if (rs.next()) {
                     ponto.setId(rs.getInt(1));
                 }
-                // Salvar materiais vinculados
+             
                 vincularMateriais(conn, ponto);
                 return true;
             }
@@ -51,9 +43,7 @@ public class PontoColetaDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Listar todos os pontos ativos (RF-03)
-    // ------------------------------------------------------------------
+  
     public List<PontoColeta> listarTodos() {
         List<PontoColeta> lista = new ArrayList<>();
         String sql = "SELECT * FROM pontos_coleta WHERE ativo = TRUE ORDER BY nome";
@@ -73,9 +63,7 @@ public class PontoColetaDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Buscar por ID
-    // ------------------------------------------------------------------
+ 
     public PontoColeta buscarPorId(int id) {
         String sql = "SELECT * FROM pontos_coleta WHERE id = ?";
 
@@ -96,9 +84,7 @@ public class PontoColetaDAO {
         return null;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Filtrar por tipo de material (RF-05)
-    // ------------------------------------------------------------------
+
     public List<PontoColeta> filtrarPorMaterial(int idMaterial) {
         List<PontoColeta> lista = new ArrayList<>();
         String sql = "SELECT pc.* FROM pontos_coleta pc "
@@ -123,9 +109,7 @@ public class PontoColetaDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    //  UPDATE — Atualizar ponto
-    // ------------------------------------------------------------------
+ 
     public boolean atualizar(PontoColeta ponto) {
         String sql = "UPDATE pontos_coleta SET nome=?, endereco=?, latitude=?, longitude=?, descricao=? WHERE id=?";
 
@@ -142,7 +126,7 @@ public class PontoColetaDAO {
             boolean ok = ps.executeUpdate() > 0;
 
             if (ok) {
-                // Remove vínculos antigos e recria
+                
                 removerMateriais(conn, ponto.getId());
                 vincularMateriais(conn, ponto);
             }
@@ -153,9 +137,7 @@ public class PontoColetaDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  DELETE — Desativar ponto (soft delete)
-    // ------------------------------------------------------------------
+   
     public boolean desativar(int id) {
         String sql = "UPDATE pontos_coleta SET ativo = FALSE WHERE id = ?";
 
@@ -170,9 +152,6 @@ public class PontoColetaDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  Métodos auxiliares privados
-    // ------------------------------------------------------------------
 
     private PontoColeta mapearPonto(ResultSet rs) throws SQLException {
         PontoColeta p = new PontoColeta();

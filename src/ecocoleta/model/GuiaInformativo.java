@@ -1,8 +1,6 @@
 package ecocoleta.model;
 
-/**
- * Modelo que representa um Guia Informativo sobre descarte correto (RF-06).
- */
+
 public class GuiaInformativo {
 
     private int    id;

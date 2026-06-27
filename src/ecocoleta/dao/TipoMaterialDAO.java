@@ -7,9 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para Tipos de Material. Permite listar e cadastrar categorias de resíduo.
- */
+
 public class TipoMaterialDAO {
 
     public List<TipoMaterial> listarTodos() {

@@ -7,14 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para Guias Informativos sobre descarte correto (RF-06).
- */
+
 public class GuiaInformativoDAO {
 
-    // ------------------------------------------------------------------
-    //  CREATE
-    // ------------------------------------------------------------------
+  
     public boolean cadastrar(GuiaInformativo guia) {
         String sql = "INSERT INTO guias_informativos (titulo, conteudo, id_autor) VALUES (?, ?, ?)";
 
@@ -37,9 +33,7 @@ public class GuiaInformativoDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Listar todos
-    // ------------------------------------------------------------------
+ 
     public List<GuiaInformativo> listarTodos() {
         List<GuiaInformativo> lista = new ArrayList<>();
         String sql = "SELECT * FROM guias_informativos ORDER BY criado_em DESC";
@@ -62,9 +56,7 @@ public class GuiaInformativoDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Buscar por ID
-    // ------------------------------------------------------------------
+
     public GuiaInformativo buscarPorId(int id) {
         String sql = "SELECT * FROM guias_informativos WHERE id = ?";
 
@@ -88,9 +80,7 @@ public class GuiaInformativoDAO {
         return null;
     }
 
-    // ------------------------------------------------------------------
-    //  DELETE
-    // ------------------------------------------------------------------
+
     public boolean excluir(int id) {
         String sql = "DELETE FROM guias_informativos WHERE id = ?";
 

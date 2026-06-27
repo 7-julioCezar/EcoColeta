@@ -7,18 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO (Data Access Object) responsável pelas operações de banco de dados
- * relacionadas à entidade Usuario.
- *
- * RF-01: Cadastro de usuários (cidadãos, administradores e empresas)
- * RF-02: Login e autenticação
- */
 public class UsuarioDAO {
 
-    // ------------------------------------------------------------------
-    //  CREATE — Cadastrar novo usuário (RF-01)
-    // ------------------------------------------------------------------
     public boolean cadastrar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
@@ -27,7 +17,7 @@ public class UsuarioDAO {
 
             ps.setString(1, usuario.getNome());
             ps.setString(2, usuario.getEmail());
-            ps.setString(3, usuario.getSenha());   // em produção, use hash!
+            ps.setString(3, usuario.getSenha());
             ps.setString(4, usuario.getTipo());
 
             int linhas = ps.executeUpdate();
@@ -45,9 +35,6 @@ public class UsuarioDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Buscar por ID
-    // ------------------------------------------------------------------
     public Usuario buscarPorId(int id) {
         String sql = "SELECT * FROM usuarios WHERE id = ?";
 
@@ -66,9 +53,6 @@ public class UsuarioDAO {
         return null;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Buscar por email (usado no login)
-    // ------------------------------------------------------------------
     public Usuario buscarPorEmail(String email) {
         String sql = "SELECT * FROM usuarios WHERE email = ? AND ativo = TRUE";
 
@@ -87,31 +71,24 @@ public class UsuarioDAO {
         return null;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Login: validar email + senha (RF-02)
-    // ------------------------------------------------------------------
-    public Usuario login(String email, String senha) {
+    public Usuario login(String email, String senha) throws SQLException {
         String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ? AND ativo = TRUE";
 
         try (Connection conn = ConexaoDB.getConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
-            ps.setString(2, senha);   // em produção, compare com hash!
+            ps.setString(2, senha);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return mapearUsuario(rs);
             }
-        } catch (SQLException e) {
-            System.err.println("Erro no login: " + e.getMessage());
+            return null;
         }
-        return null;   // retorna null se credenciais inválidas
+        // SQLException sobe propositalmente para a tela tratar
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Listar todos
-    // ------------------------------------------------------------------
     public List<Usuario> listarTodos() {
         List<Usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuarios ORDER BY nome";
@@ -129,9 +106,6 @@ public class UsuarioDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    //  UPDATE — Atualizar dados
-    // ------------------------------------------------------------------
     public boolean atualizar(Usuario usuario) {
         String sql = "UPDATE usuarios SET nome = ?, email = ?, tipo = ? WHERE id = ?";
 
@@ -150,9 +124,6 @@ public class UsuarioDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  DELETE — Desativar usuário (soft delete)
-    // ------------------------------------------------------------------
     public boolean desativar(int id) {
         String sql = "UPDATE usuarios SET ativo = FALSE WHERE id = ?";
 
@@ -167,9 +138,6 @@ public class UsuarioDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  Método auxiliar — mapear ResultSet → Usuario
-    // ------------------------------------------------------------------
     private Usuario mapearUsuario(ResultSet rs) throws SQLException {
         Usuario u = new Usuario();
         u.setId(rs.getInt("id"));

@@ -8,9 +8,7 @@ import java.util.List;
  */
 public class PontoColeta {
 
-    // -------------------------------------------------------
-    //  Atributos
-    // -------------------------------------------------------
+ 
     private int    id;
     private String nome;
     private String endereco;
@@ -20,12 +18,10 @@ public class PontoColeta {
     private boolean ativo;
     private int    idResponsavel;
 
-    // Lista de tipos de material aceitos neste ponto
+
     private List<TipoMaterial> materiais = new ArrayList<>();
 
-    // -------------------------------------------------------
-    //  Construtores
-    // -------------------------------------------------------
+
     public PontoColeta() {}
 
     public PontoColeta(String nome, String endereco, String descricao, int idResponsavel) {
@@ -36,9 +32,7 @@ public class PontoColeta {
         this.ativo         = true;
     }
 
-    // -------------------------------------------------------
-    //  Getters e Setters
-    // -------------------------------------------------------
+   
     public int getId()                        { return id; }
     public void setId(int id)                 { this.id = id; }
 
@@ -66,9 +60,7 @@ public class PontoColeta {
     public List<TipoMaterial> getMateriais()  { return materiais; }
     public void setMateriais(List<TipoMaterial> m) { this.materiais = m; }
 
-    // -------------------------------------------------------
-    //  toString
-    // -------------------------------------------------------
+ 
     @Override
     public String toString() {
         return String.format("PontoColeta[id=%d, nome=%s, endereco=%s, ativo=%b]",

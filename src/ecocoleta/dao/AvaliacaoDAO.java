@@ -7,14 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para operações de Avaliação de pontos de coleta (RF-07).
- */
+
 public class AvaliacaoDAO {
 
-    // ------------------------------------------------------------------
-    //  CREATE — Registrar avaliação (RF-07)
-    // ------------------------------------------------------------------
+ 
     public boolean cadastrar(Avaliacao avaliacao) {
         String sql = "INSERT INTO avaliacoes (nota, comentario, id_usuario, id_ponto) VALUES (?, ?, ?, ?)";
 
@@ -38,9 +34,7 @@ public class AvaliacaoDAO {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Listar avaliações de um ponto
-    // ------------------------------------------------------------------
+
     public List<Avaliacao> listarPorPonto(int idPonto) {
         List<Avaliacao> lista = new ArrayList<>();
         String sql = "SELECT * FROM avaliacoes WHERE id_ponto = ? ORDER BY criado_em DESC";
@@ -66,9 +60,7 @@ public class AvaliacaoDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    //  READ — Média de notas de um ponto
-    // ------------------------------------------------------------------
+
     public double mediaPorPonto(int idPonto) {
         String sql = "SELECT AVG(nota) AS media FROM avaliacoes WHERE id_ponto = ?";
 

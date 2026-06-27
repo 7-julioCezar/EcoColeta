@@ -1,13 +1,10 @@
 package ecocoleta.model;
 
-/**
- * Modelo que representa uma Avaliação feita por um usuário
- * sobre um ponto de coleta.
- */
+
 public class Avaliacao {
 
     private int    id;
-    private int    nota;        // 1 a 5
+    private int    nota;       
     private String comentario;
     private int    idUsuario;
     private int    idPonto;

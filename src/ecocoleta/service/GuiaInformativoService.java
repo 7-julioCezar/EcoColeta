@@ -5,9 +5,7 @@ import ecocoleta.model.GuiaInformativo;
 
 import java.util.List;
 
-/**
- * Serviço para Guias Informativos (RF-06).
- */
+
 public class GuiaInformativoService {
 
     private final GuiaInformativoDAO dao = new GuiaInformativoDAO();
